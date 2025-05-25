@@ -5,7 +5,7 @@ import (
 	"slices"
 	"testing"
 
-	listgeneration "github.co/sohWenMing/sorting_exercises/list_generation"
+	listgeneration "github.com/sohWenMing/algorithm_exercises/list_generation"
 )
 
 func TestBubbleSort(t *testing.T) {
