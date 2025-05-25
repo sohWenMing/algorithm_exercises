@@ -14,73 +14,58 @@ func InitBSTNode(inputVal int) *BSTNode {
 	}
 }
 
-func (n *BSTNode) InsertNode(inputVal int) (isInserted bool) {
-
-	isInserted = false
-	if inputVal == n.GetVal() {
-		return
-	}
-	// no duplicates of values in a binary tree
-	switch inputVal < n.GetVal() {
-	case true:
-		if n.GetLeft() == nil {
-			n.SetLeft(InitBSTNode(inputVal))
-			isInserted = true
-			return
-		}
-		isInserted = n.GetLeft().InsertNode(inputVal)
-		return
-	case false:
-		if n.GetRight() == nil {
-			n.SetRight(InitBSTNode(inputVal))
-			isInserted = true
-			return
-		}
-		isInserted = n.GetRight().InsertNode(inputVal)
-		return
-	}
-	return
+func InsertNode(n *BSTNode, inputVal int) (newNode *BSTNode, isInserted bool) {
+	return nil, false
 }
 
+func DeleteNode(n *BSTNode, inputVal int) (returnedNode *BSTNode) {
+	return nil
+}
+
+func (n *BSTNode) GetMaxNode() *BSTNode {
+	return nil
+}
+
+func (n *BSTNode) GetMinNode() *BSTNode {
+	return nil
+}
 func getValsFromNodes(nodes []*BSTNode) []int {
-	returnedVals := make([]int, 0, len(nodes))
-	for _, node := range nodes {
-		returnedVals = append(returnedVals, node.val)
-	}
-	return returnedVals
+
+	return nil
 }
 
 func (n *BSTNode) DfSearch() []*BSTNode {
 	visitedNodes := []*BSTNode{}
 	visitedNodes = append(visitedNodes, n)
-	if n.GetLeft() != nil {
-		returnedFromLeft := n.GetLeft().DfSearch()
+	if n.left != nil {
+		returnedFromLeft := n.left.DfSearch()
 		visitedNodes = append(visitedNodes, returnedFromLeft...)
 	}
-	if n.GetRight() != nil {
-		returnedFromRight := n.GetRight().DfSearch()
+	if n.right != nil {
+		returnedFromRight := n.right.DfSearch()
 		visitedNodes = append(visitedNodes, returnedFromRight...)
 	}
 	return visitedNodes
-}
+} // keep this, is used for testing
 
 func (n *BSTNode) GetVal() int {
-	return n.val
+	return 0
 }
 
 func (n *BSTNode) GetLeft() *BSTNode {
-	return n.left
+	return nil
 }
 
 func (n *BSTNode) GetRight() *BSTNode {
-	return n.right
+	return nil
 }
 
 func (n *BSTNode) SetLeft(inputNode *BSTNode) {
-	n.left = inputNode
 	return
 }
 func (n *BSTNode) SetRight(inputNode *BSTNode) {
-	n.right = inputNode
+	return
+}
+func (n *BSTNode) SetVal(inputVal int) {
 	return
 }

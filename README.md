@@ -15,7 +15,8 @@ Algorithms that have been worked on in this repo this far include:
 * Quick Sort 
 * Selection Sort
 * Power Sets
-* Linked Lists 
+* Linked Lists
+* Binary Trees (not yet worked on balancing of trees) 
 
 Each implementation (apart from the sorting solutions) are in a specific directory thta also comes with a test suite. 
 
