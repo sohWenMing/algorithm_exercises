@@ -166,6 +166,50 @@ func (l *LinkedList) AddNodeAtIndex(node *Node, index int) (err error) {
 
 	return nil
 }
+func (l *LinkedList) RemoveNodeAtIndex(index int) (err error) {
+	fmt.Println("checking for index: ", index)
+	fmt.Println("list size: ", l.GetLength())
+	if err := l.indexCheck(index); err != nil {
+		return err
+	}
+
+	if l.GetLength() == 0 {
+		return errors.New("cannot remove index from empty list")
+	}
+	curNode := l.GetHead()
+	if index == 0 {
+		l.SetHead(curNode.next)
+		l.length--
+		return
+	}
+
+	return nil
+}
+
+func (l *LinkedList) IterNodes() (nodes []*Node, vals []int) {
+	wantLength := l.GetLength()
+	returnedNodes := make([]*Node, 0, wantLength)
+	returnedVals := make([]int, 0, wantLength)
+	curNode := l.GetHead()
+	for curNode != nil {
+		returnedNodes = append(returnedNodes, curNode)
+		returnedVals = append(returnedVals, curNode.val)
+		curNode = curNode.next
+	}
+	return returnedNodes, returnedVals
+}
+
+func (l *LinkedList) indexCheck(index int) (err error) {
+	if index < 0 {
+		return errors.New("index cannot be negative")
+	}
+
+	curLength := l.GetLength()
+	if index >= curLength {
+		return errors.New("index would be be out of bounds")
+	}
+	return nil
+}
 
 func (l *LinkedList) GetStringReprs() []string {
 	returnSlice := []string{}
