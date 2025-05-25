@@ -167,23 +167,45 @@ func (l *LinkedList) AddNodeAtIndex(node *Node, index int) (err error) {
 	return nil
 }
 func (l *LinkedList) RemoveNodeAtIndex(index int) (err error) {
-	fmt.Println("checking for index: ", index)
-	fmt.Println("list size: ", l.GetLength())
-	if err := l.indexCheck(index); err != nil {
-		return err
-	}
 
 	if l.GetLength() == 0 {
 		return errors.New("cannot remove index from empty list")
 	}
+
+	if err := l.indexCheck(index); err != nil {
+		return err
+	}
+	length := l.GetLength()
 	curNode := l.GetHead()
-	if index == 0 {
+
+	switch index {
+	//handles case that removal is at head
+	case 0:
 		l.SetHead(curNode.next)
 		l.length--
-		return
+		return nil
+	//handles case that removal is at tail
+	case length - 1:
+		for curNode.next != l.GetTail() {
+			curNode = curNode.next
+		}
+		curNode.next = nil
+		l.SetTail(curNode)
+		l.length--
+		return nil
+	// all other cases:
+	default:
+		// 1, 2, 3
+		idx := 0
+		var prev *Node
+		for idx < index {
+			prev = curNode
+			curNode = curNode.next
+			idx++
+		}
+		prev.next = curNode.next
+		return nil
 	}
-
-	return nil
 }
 
 func (l *LinkedList) IterNodes() (nodes []*Node, vals []int) {

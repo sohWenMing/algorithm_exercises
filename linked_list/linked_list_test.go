@@ -3,6 +3,7 @@ package linkedlist
 import (
 	"errors"
 	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -195,14 +196,69 @@ func TestAddNodeAtMiddleByIndex(t *testing.T) {
 	}
 }
 
-func TestGetStringReprs(t *testing.T) {
+func TestRemoveNodeGuardChecks(t *testing.T) {
 	testLL := InitLinkedList()
-	addNotestoList(testLL, 5)
-	stringReps := testLL.GetStringReprs()
-	for _, stringRep := range stringReps {
-		fmt.Println(stringRep)
+	// test checks for removing from empty list
+	err := testLL.RemoveNodeAtIndex(2)
+	if err == nil {
+		t.Errorf("expected error, didn't get one")
 	}
 
+	addNotestoList(testLL, 5)
+	// test checks for removing from negative index
+	err = testLL.RemoveNodeAtIndex(-1)
+	if err == nil {
+		t.Errorf("expected error, didn't get one")
+	}
+	// test checks for removing from out of bounds
+	err = testLL.RemoveNodeAtIndex(5)
+	if err == nil {
+		t.Errorf("expected error, didn't get one")
+	}
+}
+
+func TestRemoveByIndexFromHead(t *testing.T) {
+	testLL := InitLinkedList()
+	nodes := addNotestoList(testLL, 5)
+	tailBeforeRemoval := testLL.GetTail()
+	err := testLL.RemoveNodeAtIndex(0)
+	if err != nil {
+		t.Errorf("didn't expect error, got %v", err)
+	}
+	checkNodes(testLL.GetHead(), nodes[1], t)
+	checkLength(t, testLL, 4)
+	tailAfterRemoval := testLL.GetTail()
+	checkNodes(tailAfterRemoval, tailBeforeRemoval, t)
+}
+
+func TestRemoveByIndexFromTail(t *testing.T) {
+	testLL := InitLinkedList()
+	nodes := addNotestoList(testLL, 5)
+	err := testLL.RemoveNodeAtIndex(4)
+	if err != nil {
+		t.Errorf("didn't expect error, got %v", err)
+	}
+	updatedTail := testLL.GetTail()
+	checkNodes(updatedTail, nodes[3], t)
+	if updatedTail.next != nil {
+		t.Errorf("Tail should be pointing to nil, tail node: %v", updatedTail)
+	}
+	checkLength(t, testLL, 4)
+}
+
+func TestRemoveByIndexFromMiddle(t *testing.T) {
+	testLL := InitLinkedList()
+	addNotestoList(testLL, 5)
+	// 0, 1, 2, 3, 4
+	err := testLL.RemoveNodeAtIndex(2)
+	if err != nil {
+		t.Errorf("didn't expect error, got %v", err)
+	}
+	expected := []int{0, 1, 3, 4}
+	_, got := testLL.IterNodes()
+	if !reflect.DeepEqual(expected, got) {
+		t.Errorf("\n got %v\n want %v\n", got, expected)
+	}
 }
 
 func addNotestoList(l *LinkedList, numNodes int) []*Node {
