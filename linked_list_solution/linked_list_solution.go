@@ -1,4 +1,4 @@
-package linkedlist
+package linkedlist_solution
 
 import (
 	"errors"
