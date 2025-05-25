@@ -1,7 +1,6 @@
 package linkedlist
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 )
@@ -55,50 +54,18 @@ func InitLinkedList() *LinkedList {
 
 // define a method to add a new node to the head of the list
 func (l *LinkedList) AddToHead(node *Node) {
-	switch l.head == nil {
-	case true:
-		l.SetHead(node)
-		l.SetTail(node)
-	case false:
-		cur := l.head
-		node.next = cur
-		l.SetHead(node)
-
-	}
-	l.incSize()
 	return
 }
 
 // define a method to add a new node to the tail of the list
 func (l *LinkedList) AddToTail(node *Node) {
-	switch l.head == nil {
-	case true:
-		l.SetHead(node)
-		l.SetTail(node)
-	case false:
-		curTail := l.GetTail()
-		curTail.next = node
-		l.SetTail(node)
-	}
-	l.incSize()
 	return
 }
 
 func (l *LinkedList) GetNodeAtIndex(searchIndex int) (node *Node, isFound bool) {
 	node = nil
 	isFound = false
-
-	if searchIndex < 0 || searchIndex > l.GetLength()-1 {
-		return
-	}
-	idx := 0
-	cur := l.GetHead()
-
-	for idx < searchIndex {
-		cur = cur.next
-		idx++
-	}
-	return cur, true
+	return
 }
 
 func (l *LinkedList) GetNodeWithVal(searchVal int) (node *Node, index int, isFound bool) {
@@ -106,131 +73,18 @@ func (l *LinkedList) GetNodeWithVal(searchVal int) (node *Node, index int, isFou
 	index = 0
 	isFound = false
 
-	// init negative values first
-	if l.GetLength() == 0 {
-		return
-	}
-
-	curNode := l.GetHead()
-	curIndex := 0
-	for curNode != nil {
-
-		if curNode.val == searchVal {
-			node = curNode
-			index = curIndex
-			isFound = true
-			return
-		}
-
-		curNode = curNode.next
-		curIndex += 1
-	}
 	return
 }
 
 func (l *LinkedList) AddNodeAtIndex(node *Node, index int) (err error) {
-	// handle cases for negative index, and out of bounds error
-	if index < 0 {
-		return errors.New("index cannot be negative")
-	}
-
-	curLength := l.GetLength()
-	if index > curLength {
-		return errors.New("index would be be out of bounds")
-	}
-
-	// if inserting at index 0, then we can just use the AddToHead method which will already handle head and tail
-	if index == 0 {
-		l.AddToHead(node)
-		return nil
-	}
-	// if inserting after last index of list, then can just use the AddToTail method which will already handle head and tail
-	if index == curLength {
-		l.AddToTail(node)
-		return nil
-	}
-
-	// if inserting at middle, will need to find the previous node to attach the new node to, and the next node to attach the new node to
-	currNode := l.GetHead()
-	var prevNode *Node
-	currIdx := 0
-
-	for currIdx < index {
-		prevNode = currNode
-		currNode = currNode.next
-		currIdx++
-	}
-
-	prevNode.next = node
-	node.next = currNode
-
 	return nil
 }
 func (l *LinkedList) RemoveNodeAtIndex(index int) (err error) {
-
-	if l.GetLength() == 0 {
-		return errors.New("cannot remove index from empty list")
-	}
-
-	if err := l.indexCheck(index); err != nil {
-		return err
-	}
-	length := l.GetLength()
-	curNode := l.GetHead()
-
-	switch index {
-	//handles case that removal is at head
-	case 0:
-		l.SetHead(curNode.next)
-		l.length--
-		return nil
-	//handles case that removal is at tail
-	case length - 1:
-		for curNode.next != l.GetTail() {
-			curNode = curNode.next
-		}
-		curNode.next = nil
-		l.SetTail(curNode)
-		l.length--
-		return nil
-	// all other cases:
-	default:
-		// 1, 2, 3
-		idx := 0
-		var prev *Node
-		for idx < index {
-			prev = curNode
-			curNode = curNode.next
-			idx++
-		}
-		prev.next = curNode.next
-		return nil
-	}
+	return nil
 }
 
 func (l *LinkedList) IterNodes() (nodes []*Node, vals []int) {
-	wantLength := l.GetLength()
-	returnedNodes := make([]*Node, 0, wantLength)
-	returnedVals := make([]int, 0, wantLength)
-	curNode := l.GetHead()
-	for curNode != nil {
-		returnedNodes = append(returnedNodes, curNode)
-		returnedVals = append(returnedVals, curNode.val)
-		curNode = curNode.next
-	}
-	return returnedNodes, returnedVals
-}
-
-func (l *LinkedList) indexCheck(index int) (err error) {
-	if index < 0 {
-		return errors.New("index cannot be negative")
-	}
-
-	curLength := l.GetLength()
-	if index >= curLength {
-		return errors.New("index would be be out of bounds")
-	}
-	return nil
+	return nil, nil
 }
 
 func (l *LinkedList) GetStringReprs() []string {
@@ -244,25 +98,19 @@ func (l *LinkedList) GetStringReprs() []string {
 }
 
 func (l *LinkedList) GetLength() int {
-	return l.length
+	return 0
 }
 
 func (l *LinkedList) SetHead(node *Node) {
-	l.head = node
 	return
 }
 func (l *LinkedList) SetTail(node *Node) {
-	l.tail = node
 	return
 }
 
 func (l *LinkedList) GetHead() *Node {
-	return l.head
+	return nil
 }
 func (l *LinkedList) GetTail() *Node {
-	return l.tail
-}
-
-func (l *LinkedList) incSize() {
-	l.length++
+	return nil
 }
